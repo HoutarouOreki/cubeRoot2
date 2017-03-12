@@ -1,0 +1,10 @@
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\bin\Debug\cubeRoot2.exe.config
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\bin\Debug\cubeRoot2.exe
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\bin\Debug\cubeRoot2.pdb
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.csprojResolveAssemblyReference.cache
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.Form1.resources
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.Properties.Resources.resources
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.csproj.GenerateResource.Cache
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.exe
+c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.pdb
+C:\Users\TheZj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.MessageFormatted.resources
