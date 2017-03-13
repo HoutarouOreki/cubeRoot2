@@ -176,15 +176,17 @@ namespace cubeRoot2
                 timer1.Stop();
                 startButton.Enabled = true;
                 timeLeftVar.Text = "0";
-                if (level > 0 && level < 2)
-                    level--;
-                else if (level > 2 && level < 22)
-                    level -= 2;
+                if (level > 0 && level <= 4)
+                    level = 0;
+                else if (level > 4 && level < 22)
+                    level -= 5;
                 else if (level == 22)
                 {
                     MessageBox.Show("You scored " + score.ToString());
                     level = 0;
                     afterFail = true;
+                    scoreText.Visible = false;
+                    scoreVal.Visible = false;
                 };
                 if (level != 22)
                     startButton.Text = "Generate level " + (level + 1).ToString();
