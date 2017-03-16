@@ -245,7 +245,7 @@ namespace cubeRoot2
                 }
                 else
                 {
-                    MessageBox.Show("You have reached level 23. You will score points every time you finish in time. But once you fail, the game is over.");
+                    MessageBox.Show("Maximum level was reached.");
                     firstTime = false;
                     comboVal.Text = comboStreak.ToString();
                 }
