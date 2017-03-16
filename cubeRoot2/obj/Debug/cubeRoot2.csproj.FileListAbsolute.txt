@@ -8,3 +8,4 @@ c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Deb
 c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.exe
 c:\users\thezj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.pdb
 C:\Users\TheZj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.MessageFormatted.resources
+C:\Users\TheZj\documents\visual studio 2017\Projects\cubeRoot2\cubeRoot2\obj\Debug\cubeRoot2.CubeMenu.resources

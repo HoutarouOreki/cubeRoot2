@@ -14,46 +14,80 @@ namespace cubeRoot2
     public partial class Form1 : Form
     {
         Random randomizer = new Random();
-        int cubed1, cubed2, cubed3, cubed4, cubed5, befCube1, befCube2, befCube3, befCube4, befCube5, level, fullTime, score;
-        double timeLeft;
+        int comboStreak, cubed1, cubed2, cubed3, cubed4, cubed5, befCube1, befCube2, befCube3, befCube4, befCube5, level, fullTime, score, topScore;
+        double timeLeft, maxTime, addedScore, maxScore, scoreDiffTimer;
+
+        private void Timer2_Tick(object sender, EventArgs e)
+        {
+            if (scoreDiffTimer > 0)
+            {
+                scoreDiffTimer--;
+                if (scoreDiffTimer == 19)
+                    scoreDiffLabel.BackColor = DefaultBackColor;
+            }
+            else if (scoreDiffTimer == 0)
+                scoreDiffLabel.Visible = false;
+        }
+
+        private void GameQuit_Click(object sender, EventArgs e)
+        {
+            Close();
+            CubeMenu cubeMenu = new CubeMenu();
+            cubeMenu.Show();
+        }
+
         bool firstTime = true;
-        bool afterFail = false;
+        int lives = 3;
         
-        private void answer3_ValueChanged(object sender, EventArgs e)
+        private void Answer3_ValueChanged(object sender, EventArgs e)
         {
             if (befCube3 == answer3.Value)
+            {
                 answer3.Enabled = false;
+                AddScore();
+            }
         }
 
-        private void answer4_ValueChanged(object sender, EventArgs e)
+        private void Answer4_ValueChanged(object sender, EventArgs e)
         {
             if (befCube4 == answer4.Value)
+            {
                 answer4.Enabled = false;
+                AddScore();
+            }
         }
 
-        private void answer5_ValueChanged(object sender, EventArgs e)
+        private void Answer5_ValueChanged(object sender, EventArgs e)
         {
             if (befCube5 == answer5.Value)
+            {
                 answer5.Enabled = false;
+                AddScore();
+            }
         }
 
-        private void answer2_ValueChanged(object sender, EventArgs e)
+        private void Answer2_ValueChanged(object sender, EventArgs e)
         {
             if (befCube2 == answer2.Value)
+            {
                 answer2.Enabled = false;
+                AddScore();
+            }
         }
 
-        private void answer1_ValueChanged(object sender, EventArgs e)
+        private void Answer1_ValueChanged(object sender, EventArgs e)
         {
             if (befCube1 == answer1.Value)
+            {
                 answer1.Enabled = false;
+                AddScore();
+            }
         }
 
-        private void answer_Enter(object sender, EventArgs e)
+        private void Answer_Enter(object sender, EventArgs e)
         {
-            NumericUpDown answerBox = sender as NumericUpDown;
 
-            if (answerBox != null)
+            if (sender is NumericUpDown answerBox)
             {
                 int lengthOfAnswer = answerBox.Value.ToString().Length;
                 answerBox.Select(0, lengthOfAnswer);
@@ -63,7 +97,49 @@ namespace cubeRoot2
         public Form1()
         {
             InitializeComponent();
+            livesVal.Text = lives.ToString();
         }
+
+        public void AddScore()
+        {
+            if (level != 22)
+            {
+                addedScore = ((Math.Pow((level + 1), 2)) * (timeLeft / maxTime) + 1);
+                maxScore = Math.Pow(level + 1, 2);
+            }
+            else
+            {
+                addedScore = ((Math.Pow(23, 2) * (timeLeft / 10)) + (Math.Pow(comboStreak, 3) * (timeLeft / 10)));
+                maxScore = Math.Pow(23, 2) + Math.Pow(comboStreak, 3);
+            }
+            score += (int)addedScore;
+            if (score > topScore)
+            {
+                topScore = score;
+                hiScoreVal.Text = topScore.ToString();
+            }
+            scoreVal.Text = score.ToString();
+            Debug.WriteLine("Added " + ((int)addedScore).ToString() + "/" + ((int)maxScore).ToString());
+            ScoreDiff();
+            //dodgerBlue, lightGreen
+        }
+
+        public void ScoreDiff()
+        {
+            scoreDiffTimer = 21;
+            scoreDiffLabel.Text = "+" + ((int)addedScore).ToString();
+            scoreDiffLabel.BackColor = Color.LightCyan;
+            if (addedScore >= maxScore * 0.8)
+                scoreDiffLabel.ForeColor = Color.DodgerBlue;
+            else if (addedScore >= maxScore * 0.5)
+                scoreDiffLabel.ForeColor = Color.LimeGreen;
+            else if (addedScore >= maxScore * 0.2)
+                scoreDiffLabel.ForeColor = Color.Goldenrod;
+            else
+                scoreDiffLabel.ForeColor = Color.DarkGray;
+            scoreDiffLabel.Visible = true;
+        }
+        
 
         public void StartTheQuiz()
         {
@@ -100,18 +176,23 @@ namespace cubeRoot2
             answer3.Enabled = true;
             answer4.Enabled = true;
             answer5.Enabled = true;
+
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void StartButton_Click(object sender, EventArgs e)
         {
-            StartTheQuiz();
             startButton.Enabled = false;
+            gameQuit.TabStop = false;
+            StartTheQuiz();
+            answer1.Focus();
             timeLeft = 120 - level * 5;
+            maxTime = timeLeft;
             fullTime = (int)timeLeft;
             timer1.Start();
             timeLeftVar.ForeColor = Color.SteelBlue;
             timeLeftVar.Text = timeLeft.ToString();
             levelVar.Text = (level + 1).ToString();
+            livesVal.Text = lives.ToString();
         }
 
         private bool CheckAnswers()
@@ -124,14 +205,16 @@ namespace cubeRoot2
                 && (befCube5 == answer5.Value)
                 )
             {
+                gameQuit.TabIndex = 1;
                 startButton.Enabled = true;
+                gameQuit.TabStop = true;
                 return true;
             }
             else
                 return false;
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick(object sender, EventArgs e)
         {
             if (timeLeft <= fullTime * 0.6 && timeLeft > fullTime * 0.3)
                 timeLeftVar.ForeColor = Color.Orange;
@@ -144,27 +227,32 @@ namespace cubeRoot2
                 {
                     level++;
                     startButton.Text = "Generate level " + (level + 1).ToString();
+                    comboStreak++;
+                    comboVal.Text = comboStreak.ToString();
                 }
                 else
+                {
                     startButton.Text = "Regenerate";
+                    comboStreak++;
+                    comboVal.Text = comboStreak.ToString();
+                }
                 if (level != 22)
-                    MessageBox.Show("You have successfully completed level " + (level).ToString());
+                {
+
+                }
                 else if (firstTime == false)
                 {
-                    score++;
-                    scoreVal.Text = score.ToString();
                 }
                 else
                 {
                     MessageBox.Show("You have reached level 23. You will score points every time you finish in time. But once you fail, the game is over.");
-                    score = 0;
-                    scoreText.Visible = true;
-                    scoreVal.Visible = true;
                     firstTime = false;
-                    scoreVal.Text = score.ToString();
+                    comboVal.Text = comboStreak.ToString();
                 }
                 startButton.Focus();
+                gameQuit.TabIndex = 1;
                 startButton.Enabled = true;
+                gameQuit.TabStop = true;
             }
             else if (timeLeft > 0)
             {
@@ -174,30 +262,28 @@ namespace cubeRoot2
             else
             {
                 timer1.Stop();
+                lives--;
+                comboStreak = 0;
+                comboVal.Text = comboStreak.ToString();
+                livesVal.Text = lives.ToString();
+                gameQuit.TabIndex = 1;
                 startButton.Enabled = true;
+                gameQuit.TabStop = true;
                 timeLeftVar.Text = "0";
-                if (level > 0 && level <= 4)
-                    level = 0;
-                else if (level > 4 && level < 22)
-                    level -= 5;
-                else if (level == 22)
+                if (lives == 0)
                 {
-                    MessageBox.Show("You scored " + score.ToString());
+                    MessageBox.Show("Game over. You've scored " + score.ToString() + " points.");
+                    score = 0;
+                    scoreVal.Text = score.ToString();
                     level = 0;
-                    afterFail = true;
-                    scoreText.Visible = false;
-                    scoreVal.Visible = false;
-                };
-                if (level != 22)
+                    levelVar.Text = level.ToString();
+                    lives = 3;
+                    startButton.Text = "Restart (level 1)";
+                }
+                else if (level != 22)
                     startButton.Text = "Generate level " + (level + 1).ToString();
                 else if (level == 22)
                     startButton.Text = "Regenerate";
-                if (afterFail != true)
-                {
-                    MessageBox.Show("You have failed to finish in time");
-                }
-                else
-                    afterFail = false;
                 answer1.Value = befCube1;
                 answer2.Value = befCube2;
                 answer3.Value = befCube3;
